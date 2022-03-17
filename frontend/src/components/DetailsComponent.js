@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Redirect } from "react-router-dom";
+import {
+    Card,
+    CardBody,
+    CardTitle,
+    CardText,
+    CardSubtitle,
+    Button,
+} from "reactstrap";
 
 const Details = () => {
     const [token, setToken] = useState(null);
@@ -46,22 +54,25 @@ const Details = () => {
     return (
         <div>
             {!loggedOut ? (
-                <>
-                    Details
-                    <div>
-                        <h1>Hello {name}</h1>
-                        <h2>Your email is {email}</h2>
-                        <button
-                            type="submit"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleLogout();
-                            }}
-                        >
-                            Logout
-                        </button>
-                    </div>
-                </>
+                <Card color="light" className="mt-5 fs-3">
+                    <CardBody>
+                        <CardTitle>Details</CardTitle>
+                        <CardSubtitle>
+                            <CardText>Hello {name}</CardText>
+                            <CardText>Your email is {email}</CardText>
+                            <Button
+                                color="danger"
+                                type="submit"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleLogout();
+                                }}
+                            >
+                                Logout
+                            </Button>
+                        </CardSubtitle>
+                    </CardBody>
+                </Card>
             ) : (
                 <Redirect to="/home" />
             )}
