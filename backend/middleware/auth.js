@@ -3,13 +3,14 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const key = require("../utils/key");
 
-module.exports = (req, res, next) => {
-    const { authorization } = req.headers;
-    if (!authorization) {
-        // return
+const auth = (req, res, next) => {
+    const Authorization = req.headers.authorization;
+    if (!Authorization) {
         res.status(401).send({ error: "you must be logged in" });
     }
-    const token = authorization.replace("Bearer ", "");
+
+    const token = Authorization.split(" ")[1];
+
     jwt.verify(token, key, async (err, payload) => {
         if (err) {
             return res.status(401).send({ error: "you must be logged in 2" });
@@ -20,3 +21,5 @@ module.exports = (req, res, next) => {
         next();
     });
 };
+
+module.exports = auth;

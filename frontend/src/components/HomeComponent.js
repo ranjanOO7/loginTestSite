@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
-import LoadingScreen from "react-loading-screen";
+// import LoadingScreen from "react-loading-screen";
 
 const Home = () => {
     const [token, setToken] = useState(null);
-    const [isLoading, setLoading] = useState(true);
+    // const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem("jwtToken");
@@ -12,9 +12,9 @@ const Home = () => {
         setToken({
             token: token,
         });
-        setLoading({
-            isLoading: false,
-        });
+        // setLoading({
+        //     isLoading: false,
+        // });
     }, []);
 
     return (
@@ -32,7 +32,7 @@ const Home = () => {
                 </>
             ) : ( */}
             <>
-                {token ? (
+                {token == null ? (
                     <Redirect to="/login"></Redirect>
                 ) : (
                     <Redirect to="/userDetails"></Redirect>

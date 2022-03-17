@@ -11,42 +11,25 @@ mainRouter
     .get((req, res) => {
         res.send("Get request is called on /api/addUser");
     })
-    .post(async (req, res) => {
-        try {
-            // const password = ;
-            // const hashedPasword = await bcrypt.hash(req.body.password, 10);
-            const hashedPasword = () => {
-                bcrypt
-                    .hash(req.body.password, 10)
-                    .then((res) => {
-                        console.log(res);
-                        return res;
-                    })
-                    .catch((err) => {
-                        console.error("Hashing error: ", err);
-                    });
-            };
-            const email = req.body.email;
-            const name = req.body.name;
-            const newUser = new User({ name, email, hashedPasword });
-            newUser
-                .save()
-                .then((response) => {
-                    console.log(response);
-                    res.send("User added successfully");
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
-        } catch (e) {
-            console.error(e);
-        }
+    .post((req, res) => {
+        const password = req.body.password;
+        const email = req.body.email;
+        const name = req.body.name;
+        const newUser = new User({ name, email, password });
+        newUser
+            .save()
+            .then((response) => {
+                console.log(response);
+                res.send("User added successfully");
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     });
 
 mainRouter
     .route("/loginUser")
     .get((req, res) => {
-        // res.send("Get request is called on /api/addUser");
         const email = "abc@gmail.com";
         User.findOne({ email: email })
             .then((users) => {
@@ -67,7 +50,6 @@ mainRouter
         console.log(password);
         User.findOne({ email: email })
             .then((user) => {
-                // console.log(user);
                 if (user.password == password) {
                     const token = jwt.sign({ userId: user._id }, key);
                     res.send({ token });

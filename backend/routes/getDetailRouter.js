@@ -8,9 +8,8 @@ getDetailRouter
         console.log("Get is called on getDetail router");
     })
     .post((req, res) => {
-        console.log(res.header);
         const user = req.user;
-        res.send(user.name);
+        res.send({ name: user.name, email: user.email });
     });
 
 module.exports = getDetailRouter;
